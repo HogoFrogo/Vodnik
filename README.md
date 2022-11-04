@@ -1,4 +1,4 @@
-# Vodnik
+# Vodník
 Game for FIK Festival.
 
 High score signle player game.
