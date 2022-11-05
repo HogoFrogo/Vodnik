@@ -7,3 +7,9 @@ High score signle player game.
 About vodnik (czech water spirit).
 
 The goal is to reach the highest score by taking care of a pond (cleaning trash thrown by people, even catching trashy people)
+
+## Controls
+ⓌⓈⒶⒹ + akční tlačítka ⓀⓁ
+
+## Resolution
+1280x1024
