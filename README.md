@@ -23,3 +23,8 @@ if not functioning
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 20
 sudo python3 --version
 sudo apt install python3-pip
+
+if still not funcitoning
+sudo add-apt-repository universe
+sudo apt update
+sudo apt install python3-pip
