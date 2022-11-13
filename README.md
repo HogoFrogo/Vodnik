@@ -20,14 +20,20 @@ Save it to folder where you want it to be installed.
 Launch main.py file via command line.
 
 if no module named pip error:  
+```
 sudo apt install python3-pip
+```
 
 if the above command does not work:  
+```
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 20  
 sudo python3 --version  
 sudo apt install python3-pip  
+```
 
 if it is still not working:  
+```
 sudo add-apt-repository universe  
 sudo apt update  
 sudo apt install python3-pip  
+```
