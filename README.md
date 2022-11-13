@@ -8,6 +8,8 @@ About vodnik (czech water spirit).
 
 The goal is to reach the highest score by taking care of a pond (cleaning trash thrown by people, even catching trashy people)
 
+Highscore table for fikmat saved in highscore.json file.
+
 ## Controls
 ⓌⓈⒶⒹ + akční tlačítka ⓀⓁ
 
