@@ -10,6 +10,8 @@ The goal is to reach the highest score by taking care of a pond (cleaning trash 
 
 Highscore table for fikmat saved in highscore.json file.
 
+Icon available in icon.png file.
+
 ## Controls
 ⓌⓈⒶⒹ + akční tlačítka ⓀⓁ
 
