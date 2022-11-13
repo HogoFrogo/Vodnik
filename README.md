@@ -2,7 +2,7 @@
 Game for FIK Festival.
 https://sites.google.com/view/fikmat-game-jam-2022
 
-High score signle player game.
+High score single player game.
 
 About vodnik (czech water spirit).
 
@@ -13,7 +13,7 @@ Highscore table for fikmat saved in highscore.json file.
 Icon available in icon.png file.
 
 ## Controls
-ⓌⓈⒶⒹ + akční tlačítka ⓀⓁ
+ⓌⓈⒶⒹ + action keys ⓀⓁ
 
 ## Resolution
 1280x1024
