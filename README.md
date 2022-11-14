@@ -1,17 +1,16 @@
-# Vodník
+# Vodník Hugo
 Game for FIK Festival.  
 https://sites.google.com/view/fikmat-game-jam-2022  
 https://sites.google.com/view/fikmat-game-jam-2022/technicke-info
 
-High score single player game.
-
-About vodnik (czech water spirit).
+High score single player game about a vodnik named Hugo (czech water spirit).
 
 The goal is to reach the highest score by taking care of a pond (cleaning trash thrown by people, even catching trashy people)
 
-Highscore table for fikmat saved in highscore.json file.
-
-Icon available in icon.png file.
+Highscore table for fikmat saved in highscore.json file.  
+Icon available in icon.png file.  
+Cover image available in cover.png file.
+Authors: Samuel Machat, Lenka Holubcová
 
 ## Controls
 ⓌⓈⒶⒹ + action keys ⓀⓁ
