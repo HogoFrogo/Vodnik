@@ -9,8 +9,8 @@ The goal is to reach the highest score by taking care of a pond (cleaning trash 
 
 Highscore table for fikmat saved in highscore.json file.  
 Icon available in icon.png file.  
-Cover image for dark background is available in cover-for-black-bg.png file.  
-Cover image for light background is available in cover.png file.  
+Cover image for dark background is available in cover-for-dark-bg.png file.  
+Cover image for light background is available in cover-for-light-bg.png file.  
 Authors: Samuel Machat, Lenka Holubcová  
 
 ## Controls
