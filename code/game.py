@@ -88,7 +88,17 @@ class Game:
 			player_4 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
 			player_5 = [option[0], int(option[1])]
-		return [player_1,player_2,player_3,player_4,player_5]
+			option = f.readline().split(" = ")
+			player_6 = [option[0], int(option[1])]
+			option = f.readline().split(" = ")
+			player_7 = [option[0], int(option[1])]
+			option = f.readline().split(" = ")
+			player_8 = [option[0], int(option[1])]
+			option = f.readline().split(" = ")
+			player_9 = [option[0], int(option[1])]
+			option = f.readline().split(" = ")
+			player_10 = [option[0], int(option[1])]
+		return [player_1,player_2,player_3,player_4,player_5,player_6,player_7,player_8,player_9,player_10]
 
 	def handle_highscore(self):
 		scores = self.load_score_board()
@@ -112,7 +122,7 @@ class Game:
 			f.write('}')
 			# f.write('{"name":"","score":}')
 			i += 1
-			if i<5:
+			if i<10:
 				f.write(',')
 			else:
 				break

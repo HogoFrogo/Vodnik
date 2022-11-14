@@ -128,11 +128,16 @@ class Program:
 		# table.set_border(4,"red")
 		table.set_background_color((233,206,146))
 		# ALIGN_RIGHT
-		self.score1 = table.add_row([' 1.',' {0}'.format(scoreboard[0][1][:-1]), '    {0}'.format(scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 2.',' {0}'.format(scoreboard[1][1][:-1]), '    {0}'.format(scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 3.',' {0}'.format(scoreboard[2][1][:-1]), '    {0}'.format(scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 4.',' {0}'.format(scoreboard[3][1][:-1]), '    {0}'.format(scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 5.',' {0}'.format(scoreboard[4][1][:-1]), '    {0}'.format(scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  1.',' {0}'.format(scoreboard[0][1][:-1]), '    {0}'.format(scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  2.',' {0}'.format(scoreboard[1][1][:-1]), '    {0}'.format(scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  3.',' {0}'.format(scoreboard[2][1][:-1]), '    {0}'.format(scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  4.',' {0}'.format(scoreboard[3][1][:-1]), '    {0}'.format(scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  5.',' {0}'.format(scoreboard[4][1][:-1]), '    {0}'.format(scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  6.',' {0}'.format(scoreboard[5][1][:-1]), '    {0}'.format(scoreboard[5][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  7.',' {0}'.format(scoreboard[6][1][:-1]), '    {0}'.format(scoreboard[6][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  8.',' {0}'.format(scoreboard[7][1][:-1]), '    {0}'.format(scoreboard[7][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  9.',' {0}'.format(scoreboard[8][1][:-1]), '    {0}'.format(scoreboard[8][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row([' 10.',' {0}'.format(scoreboard[9][1][:-1]), '    {0}'.format(scoreboard[9][0])],None,(233,206,146),None,None,None,"black")
 		self.scoreboard_menu.render()
 		self.main_menu.full_reset()
 		# self.play_menu = self.create_play_menu()
@@ -196,7 +201,17 @@ class Program:
 			player_4 = [option[0], option[1]]
 			option = f.readline().split(" = ")
 			player_5 = [option[0], option[1]]
-		return [player_1,player_2,player_3,player_4,player_5]
+			option = f.readline().split(" = ")
+			player_6 = [option[0], option[1]]
+			option = f.readline().split(" = ")
+			player_7 = [option[0], option[1]]
+			option = f.readline().split(" = ")
+			player_8 = [option[0], option[1]]
+			option = f.readline().split(" = ")
+			player_9 = [option[0], option[1]]
+			option = f.readline().split(" = ")
+			player_10 = [option[0], option[1]]
+		return [player_1,player_2,player_3,player_4,player_5,player_6,player_7,player_8,player_9,player_10]
 
 	def create_scoreboard_menu(self):
 		menu = pygame_menu.Menu(LOCALE_SCOREBOARD, screen_width, screen_height,
@@ -208,11 +223,16 @@ class Program:
 		# table.set_border(4,"red")
 		table.set_background_color(((233,206,146)))
 		# ALIGN_RIGHT
-		self.score1 = table.add_row([' 1.',' {0}'.format(scoreboard[0][1][:-1]), '    {0}'.format(scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 2.',' {0}'.format(scoreboard[1][1][:-1]), '    {0}'.format(scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 3.',' {0}'.format(scoreboard[2][1][:-1]), '    {0}'.format(scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 4.',' {0}'.format(scoreboard[3][1][:-1]), '    {0}'.format(scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 5.',' {0}'.format(scoreboard[4][1][:-1]), '    {0}'.format(scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  1.',' {0}'.format(scoreboard[0][1][:-1]), '    {0}'.format(scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  2.',' {0}'.format(scoreboard[1][1][:-1]), '    {0}'.format(scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  3.',' {0}'.format(scoreboard[2][1][:-1]), '    {0}'.format(scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  4.',' {0}'.format(scoreboard[3][1][:-1]), '    {0}'.format(scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  5.',' {0}'.format(scoreboard[4][1][:-1]), '    {0}'.format(scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  6.',' {0}'.format(scoreboard[5][1][:-1]), '    {0}'.format(scoreboard[5][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  7.',' {0}'.format(scoreboard[6][1][:-1]), '    {0}'.format(scoreboard[6][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  8.',' {0}'.format(scoreboard[7][1][:-1]), '    {0}'.format(scoreboard[7][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  9.',' {0}'.format(scoreboard[8][1][:-1]), '    {0}'.format(scoreboard[8][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row([' 10.',' {0}'.format(scoreboard[9][1][:-1]), '    {0}'.format(scoreboard[9][0])],None,(233,206,146),None,None,None,"black")
 		# self.score2 = table.add.label("2) {0} by {1}".format(scoreboard[1][1],scoreboard[1][0]))
 		# self.score3 = menu.add.label("3) {0} by {1}".format(scoreboard[2][1],scoreboard[2][0]))
 		# self.score4 = menu.add.label("4) {0} by {1}".format(scoreboard[3][1],scoreboard[3][0]))
