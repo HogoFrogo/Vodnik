@@ -1,6 +1,7 @@
 # Vodník
-Game for FIK Festival.
-https://sites.google.com/view/fikmat-game-jam-2022
+Game for FIK Festival.  
+https://sites.google.com/view/fikmat-game-jam-2022  
+https://sites.google.com/view/fikmat-game-jam-2022/technicke-info
 
 High score single player game.
 
