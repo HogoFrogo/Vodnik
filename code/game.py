@@ -22,17 +22,21 @@ class Game:
 		self.sounds_volume = sounds_volume
 
 		self.player_name = ""
-		
+
+		self.level_bg_music =""
 		# audio 
-		
-		self.level_bg_music = pygame.mixer.Sound('../audio/bleeps-and-bloops-classic-arcade-game-116838.mp3')
+		try:
+			self.level_bg_music = pygame.mixer.Sound('../audio/bleeps-and-bloops-classic-arcade-game-116838.mp3')
+		except:
+			print("Music not loaded.")
 
 		self.status = 'run'
 
 		# user interface 
 		self.level = Level(0,self.screen,self.create_overworld,self.change_coins,self.change_health,self.change_jump,"easy")
 		self.status = 'level'
-		self.level_bg_music.play(loops = -1)
+		if(not self.level_bg_music==""):
+			self.level_bg_music.play(loops = -1)
 
 
 	def create_level(self,current_level,difficulty):
@@ -48,7 +52,8 @@ class Game:
 	def create_overworld(self,current_level,new_max_level,difficulty):
 		if new_max_level > self.max_level:
 			self.max_level = new_max_level
-		self.level_bg_music.stop()
+		if(not self.level_bg_music==""):
+			self.level_bg_music.stop()
 
 	def change_coins(self,amount):
 		self.coins += amount
@@ -65,7 +70,8 @@ class Game:
 
 	def change_music_volume(self,new_music_volume):
 		self.music_volume = new_music_volume
-		self.level_bg_music.set_volume(new_music_volume)
+		if(not self.level_bg_music==""):
+			self.level_bg_music.set_volume(new_music_volume)
 
 	def change_sounds_volume(self,new_sounds_volume):
 		print(new_sounds_volume)
@@ -74,7 +80,8 @@ class Game:
 	def check_game_over(self):
 		if self.cur_health <= 0:
 			self.status = 'end'
-			self.level_bg_music.stop()
+			if(not self.level_bg_music==""):
+				self.level_bg_music.stop()
 
 	def load_score_board(self):
 		with open('../highscores.txt', 'r') as f:
@@ -133,7 +140,8 @@ class Game:
 		if self.level.state == 'end':
 			self.handle_highscore()
 			self.status = "end"
-			self.level_bg_music.stop()
+			if(not self.level_bg_music==""):
+				self.level_bg_music.stop()
 		else:
 			self.level.run()
 			#self.ui.show_health(self.cur_health,self.max_health)

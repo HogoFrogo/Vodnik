@@ -54,7 +54,12 @@ class Program:
 	def __init__(self):
 		# Pygame setup
 		pygame.init()
-		self.main_menu_music = pygame.mixer.Sound('../audio/vodevil-15550.mp3')
+		self.main_menu_music=""
+		try:
+			self.main_menu_music = pygame.mixer.Sound('../audio/vodevil-15550.mp3')
+		except:
+			print("Music not loaded")
+
 		font = pygame.font.Font('../kyrou_7_wide_bold.ttf', 6) # 40
 		self.THEME_VODNIK = pygame_menu.Theme(
 			background_color=(0, 0, 0, 0),
@@ -97,11 +102,13 @@ class Program:
 		background_image.draw(self.screen)
 	def run(self):
 		self.run_launch_screen()
-		self.main_menu_music.play(loops = -1)
+		if(not self.main_menu_music==""):
+			self.main_menu_music.play(loops = -1)
 		self.main_menu.mainloop(self.screen,self.main_background)
 
 	def run_game(self):
-		self.main_menu_music.stop()
+		if(not self.main_menu_music==""):
+			self.main_menu_music.stop()
 		self.game = Game(self.screen)
 		global player_name
 		self.game.player_name = player_name
@@ -116,7 +123,8 @@ class Program:
 			pygame.display.update()
 			self.clock.tick(30)
 			if self.game.status=='end':
-				self.main_menu_music.play(loops = -1)
+				if not self.main_menu_music=="":
+					self.main_menu_music.play(loops = -1)
 				break
 		
 		self.scoreboard_menu.clear()
