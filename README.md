@@ -11,6 +11,8 @@ Highscore table for fikmat saved in highscore.json file.
 Icon available in icon.png file.  
 Cover image for dark background is available in cover-for-dark-bg.png file.  
 Cover image for light background is available in cover-for-light-bg.png file.  
+![](cover-for-dark-bg.png?raw=true)
+![](cover-for-light-bg.png?raw=true)
 Authors: Samuel Machat, Lenka Holubcová  
 
 Launch by 
