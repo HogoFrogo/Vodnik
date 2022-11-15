@@ -2,8 +2,10 @@ import pygame
 from random import randint
 from path_filler import GRAPHICS_FOLDER
 
-from animated_object import AnimatedObject
-from pneu import Pneu
+from objects.animated_object import AnimatedObject
+from objects.pneu import Pneu
+
+INVENTORY_IMAGE_FILE = GRAPHICS_FOLDER + "inventory.png"
 
 class Vodnik(AnimatedObject):
 	img_path = GRAPHICS_FOLDER + "vodnik/"
@@ -37,7 +39,7 @@ class Vodnik(AnimatedObject):
 		display_surface.blit(picture_directed, (self.x, self.y))
 
 	def draw_inventory(self,display_surface):
-		display_surface.blit(pygame.image.load(GRAPHICS_FOLDER + "inventory.png"),(self.inventory_x-7,self.inventory_y-7))
+		display_surface.blit(pygame.image.load(INVENTORY_IMAGE_FILE),(self.inventory_x-7,self.inventory_y-7))
 		if not self.empty_hands and not self.inventory=="":
 			if isinstance(self.inventory,Pneu):
 				display_surface.blit(pygame.image.load(self.inventory.img_path),(self.inventory_x,self.inventory_y+5))

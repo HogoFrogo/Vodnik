@@ -1,9 +1,8 @@
 import pygame 
 from random import randint
-import math
 from path_filler import GRAPHICS_FOLDER
 
-from garbage import Garbage
+from objects.garbage import Garbage
 
 class Pneu(Garbage):
 	img_path = GRAPHICS_FOLDER + "tire.png"

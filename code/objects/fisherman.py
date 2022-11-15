@@ -2,7 +2,7 @@ import pygame
 from random import randint
 from path_filler import GRAPHICS_FOLDER
 
-from animated_object import AnimatedObject
+from objects.animated_object import AnimatedObject
 
 class Fisherman(AnimatedObject):
 	img_path = GRAPHICS_FOLDER + "fisherman/"
