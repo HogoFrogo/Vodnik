@@ -4,6 +4,10 @@ import pygame
 from level import Level
 from path_filler import ROOT_FOLDER,GRAPHICS_FOLDER,AUDIO_FOLDER
 
+ICON_FILE = GRAPHICS_FOLDER + 'icon.png'
+GAME_MUSIC_FILE = AUDIO_FOLDER + 'bleeps-and-bloops-classic-arcade-game-116838.mp3'
+HIGHSCORE_FILE = ROOT_FOLDER + 'highscores.txt'
+HIGHSCORE_FILE_2 = ROOT_FOLDER + "highscore.json"
 
 class Game:
 	def __init__(self, screen, music_volume=50,sounds_volume=50):
@@ -15,7 +19,7 @@ class Game:
 		self.max_jump = 48
 		self.cur_jump = 0
 		self.screen = screen
-		programIcon = pygame.image.load(GRAPHICS_FOLDER + 'icon.png')
+		programIcon = pygame.image.load(ICON_FILE)
 		pygame.display.set_icon(programIcon)
 		pygame.mouse.set_visible(False)
 
@@ -27,7 +31,7 @@ class Game:
 		self.level_bg_music =""
 		# audio 
 		try:
-			self.level_bg_music = pygame.mixer.Sound(AUDIO_FOLDER + 'bleeps-and-bloops-classic-arcade-game-116838.mp3')
+			self.level_bg_music = pygame.mixer.Sound(GAME_MUSIC_FILE)
 		except:
 			print("Music not loaded.")
 
@@ -85,7 +89,7 @@ class Game:
 				self.level_bg_music.stop()
 
 	def load_score_board(self):
-		with open(ROOT_FOLDER + 'highscores.txt', 'r') as f:
+		with open(HIGHSCORE_FILE, 'r') as f:
 			option = f.readline().split(" = ")
 			player_1 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
@@ -114,12 +118,12 @@ class Game:
 		scores.append(new_score)
 		scores = sorted(scores, key=lambda x: x[1],reverse=True)
 
-		f = open(ROOT_FOLDER + "highscores.txt", "w")
+		f = open(HIGHSCORE_FILE, "w")
 		for score in scores:
 			f.write("{} = {}\n".format(score[0],score[1]))
 		
 		# highscores export
-		f = open(ROOT_FOLDER + "highscore.json", "w")
+		f = open(HIGHSCORE_FILE_2, "w")
 		i = 0
 		f.write('{"scores":[')
 		for score in scores:
@@ -145,7 +149,4 @@ class Game:
 				self.level_bg_music.stop()
 		else:
 			self.level.run()
-			#self.ui.show_health(self.cur_health,self.max_health)
-			#self.ui.show_jump(self.cur_jump, self.max_jump)
-			#self.ui.show_coins(self.coins)
 			self.check_game_over()

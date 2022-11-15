@@ -4,29 +4,44 @@ from multiprocessing.connection import wait
 from time import sleep
 from traceback import format_exc
 import pygame
-from bottle import Bottle
-from mug import Mug
-from spirit import Spirit
-from fisherman import Fisherman
-from pneu import Pneu
-from garbage import Garbage
-from vodnik import Vodnik
-from fish import Fish
+from objects.bottle import Bottle
+from objects.mug import Mug
+from objects.spirit import Spirit
+from objects.fisherman import Fisherman
+from objects.pneu import Pneu
+from objects.garbage import Garbage
+from objects.vodnik import Vodnik
+from objects.fish import Fish
 from random import randint
 import settings
 from path_filler import ROOT_FOLDER,GRAPHICS_FOLDER
 
 screen_width = settings.screen_width
 screen_height = settings.screen_height
+
+SKY_FILE = GRAPHICS_FOLDER + "sky.png"
+MOUNTAINS_FILE = GRAPHICS_FOLDER + "sky.png"
+LAND_FILE = GRAPHICS_FOLDER + "land.png"
+POND_FILE = GRAPHICS_FOLDER + "pond.png"
+SHELF_FILE = GRAPHICS_FOLDER + "shelf.png"
+GLASS_CONTAINER_FILE = GRAPHICS_FOLDER + "glass_container.png"
+WATER_FILE = GRAPHICS_FOLDER + "water.png"
+FOREGROUND_FILE = GRAPHICS_FOLDER + "foreground.png"
+MODAL_WINDOW_IMAGE_FILE = GRAPHICS_FOLDER + "modal.png"
+FONT_FILE = ROOT_FOLDER + 'kyrou_7_wide_bold.ttf'
+
+LOCALE_END = "Konec"
+LOCALE_SCORE = "Skóre"
+
 class Level:
-	sky_picture = pygame.image.load(GRAPHICS_FOLDER + "sky.png")
-	mountains_picture = pygame.image.load(GRAPHICS_FOLDER + "sky.png")
-	land_picture = pygame.image.load(GRAPHICS_FOLDER + "land.png")
-	pond_picture = pygame.image.load(GRAPHICS_FOLDER + "pond.png")
-	shelf_picture = pygame.image.load(GRAPHICS_FOLDER + "shelf.png")
-	glass_container_picture = pygame.image.load(GRAPHICS_FOLDER + "glass_container.png")
-	water_picture = pygame.image.load(GRAPHICS_FOLDER + "water.png")
-	foreground_picture = pygame.image.load(GRAPHICS_FOLDER + "foreground.png")
+	sky_picture = pygame.image.load(SKY_FILE)
+	mountains_picture = pygame.image.load(MOUNTAINS_FILE)
+	land_picture = pygame.image.load(LAND_FILE)
+	pond_picture = pygame.image.load(POND_FILE)
+	shelf_picture = pygame.image.load(SHELF_FILE)
+	glass_container_picture = pygame.image.load(GLASS_CONTAINER_FILE)
+	water_picture = pygame.image.load(WATER_FILE)
+	foreground_picture = pygame.image.load(FOREGROUND_FILE)
 	# shelf_position = (80,700)
 	shelf_position = (20,160)
 	# glass_container_position = (1000, 700)
@@ -231,8 +246,8 @@ class Level:
 		
 		#draw_score
 		# font = pygame.font.Font('../nevis.ttf', 24)
-		font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 7)
-		text = font.render("Skóre: {0}".format(self.score), True, pygame.color.Color('Black'))
+		font = pygame.font.Font(FONT_FILE, 7)
+		text = font.render(LOCALE_SCORE + ": {0}".format(self.score), True, pygame.color.Color('Black'))
 		# self.display_surface.blit(text, (20, 20))
 		self.display_surface.blit(text, (5, 5))
 		
@@ -255,7 +270,7 @@ class Level:
 	def check_end(self):
 		if not self.all_fish:
 			self.state="end"
-			self.view_window("Skóre: {}".format(self.score),GRAPHICS_FOLDER + "modal.png")
+			self.view_window(LOCALE_SCORE + ": {}".format(self.score),MODAL_WINDOW_IMAGE_FILE)
 
 	
 
@@ -275,12 +290,12 @@ class Level:
 			x1, y1 = background.get_width()//2, background.get_height()//2
 			background.blit(picture, (x1 - picture.get_width() // 2, y1 - picture.get_height() // 2))
 			
-			font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 13)
-			text = font.render("Konec", True, pygame.color.Color('Black'))
+			font = pygame.font.Font(FONT_FILE, 13)
+			text = font.render(LOCALE_END, True, pygame.color.Color('Black'))
 			# background.blit(text, (20, 20))
 			background.blit(text, (20, 15))
 			
-			font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 7)
+			font = pygame.font.Font(FONT_FILE, 7)
 			text = font.render(text_content, True, pygame.color.Color('Black'))
 			# background.blit(text, (20, 20))
 			background.blit(text, (20, 35))
