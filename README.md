@@ -14,7 +14,6 @@ Cover image for light background is available in cover-for-light-bg.png file (Fi
 ![](cover-for-dark-bg.png?raw=true)  
 ![](cover-for-light-bg.png?raw=true)  
 
-![](cover-for-light-bg.png?raw=true)  
 Authors: Samuel Machat, Lenka Holubcová   
 
 Launch by 
