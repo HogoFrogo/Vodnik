@@ -1,10 +1,10 @@
 import pygame 
 from random import randint
-import math
+from path_filler import GRAPHICS_FOLDER
 from animated_object import AnimatedObject
 
 class Spirit(AnimatedObject):
-	img_path = "../graphics/spirit/"
+	img_path = GRAPHICS_FOLDER + "spirit/"
 	x = 0
 	y = 0
 	speed_x = 0

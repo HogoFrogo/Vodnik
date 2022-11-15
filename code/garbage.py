@@ -1,9 +1,9 @@
 import pygame 
 from random import randint
-import math
+from path_filler import GRAPHICS_FOLDER
 
 class Garbage():
-	img_path = "../graphics/garbage.png"
+	img_path = GRAPHICS_FOLDER + "garbage.png"
 	x = 0
 	y = 0
 	max_speed=1 # 5

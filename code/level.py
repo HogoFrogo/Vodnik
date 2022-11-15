@@ -14,17 +14,19 @@ from vodnik import Vodnik
 from fish import Fish
 from random import randint
 import settings
+from path_filler import ROOT_FOLDER,GRAPHICS_FOLDER
+
 screen_width = settings.screen_width
 screen_height = settings.screen_height
 class Level:
-	sky_picture = pygame.image.load("../graphics/sky.png")
-	mountains_picture = pygame.image.load("../graphics/sky.png")
-	land_picture = pygame.image.load("../graphics/land.png")
-	pond_picture = pygame.image.load("../graphics/pond.png")
-	shelf_picture = pygame.image.load("../graphics/shelf.png")
-	glass_container_picture = pygame.image.load("../graphics/glass_container.png")
-	water_picture = pygame.image.load("../graphics/water.png")
-	foreground_picture = pygame.image.load("../graphics/foreground.png")
+	sky_picture = pygame.image.load(GRAPHICS_FOLDER + "sky.png")
+	mountains_picture = pygame.image.load(GRAPHICS_FOLDER + "sky.png")
+	land_picture = pygame.image.load(GRAPHICS_FOLDER + "land.png")
+	pond_picture = pygame.image.load(GRAPHICS_FOLDER + "pond.png")
+	shelf_picture = pygame.image.load(GRAPHICS_FOLDER + "shelf.png")
+	glass_container_picture = pygame.image.load(GRAPHICS_FOLDER + "glass_container.png")
+	water_picture = pygame.image.load(GRAPHICS_FOLDER + "water.png")
+	foreground_picture = pygame.image.load(GRAPHICS_FOLDER + "foreground.png")
 	# shelf_position = (80,700)
 	shelf_position = (20,160)
 	# glass_container_position = (1000, 700)
@@ -229,7 +231,7 @@ class Level:
 		
 		#draw_score
 		# font = pygame.font.Font('../nevis.ttf', 24)
-		font = pygame.font.Font('../kyrou_7_wide_bold.ttf', 7)
+		font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 7)
 		text = font.render("Skóre: {0}".format(self.score), True, pygame.color.Color('Black'))
 		# self.display_surface.blit(text, (20, 20))
 		self.display_surface.blit(text, (5, 5))
@@ -253,7 +255,7 @@ class Level:
 	def check_end(self):
 		if not self.all_fish:
 			self.state="end"
-			self.view_window("Skóre: {}".format(self.score),"../graphics/modal.png")
+			self.view_window("Skóre: {}".format(self.score),GRAPHICS_FOLDER + "modal.png")
 
 	
 
@@ -273,12 +275,12 @@ class Level:
 			x1, y1 = background.get_width()//2, background.get_height()//2
 			background.blit(picture, (x1 - picture.get_width() // 2, y1 - picture.get_height() // 2))
 			
-			font = pygame.font.Font('../kyrou_7_wide_bold.ttf', 13)
+			font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 13)
 			text = font.render("Konec", True, pygame.color.Color('Black'))
 			# background.blit(text, (20, 20))
 			background.blit(text, (20, 15))
 			
-			font = pygame.font.Font('../kyrou_7_wide_bold.ttf', 7)
+			font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 7)
 			text = font.render(text_content, True, pygame.color.Color('Black'))
 			# background.blit(text, (20, 20))
 			background.blit(text, (20, 35))

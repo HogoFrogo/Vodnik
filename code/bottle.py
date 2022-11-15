@@ -1,11 +1,11 @@
 import pygame 
 from random import randint
-import math
+from path_filler import GRAPHICS_FOLDER
 
 from garbage import Garbage
 
 class Bottle(Garbage):
-	img_path = "../graphics/bottle.png"
+	img_path = GRAPHICS_FOLDER + "bottle.png"
 	x = 0
 	y = 0
 	max_speed=1 # 5

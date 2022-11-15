@@ -1,6 +1,7 @@
 from multiprocessing.connection import wait
 from time import sleep
 import settings
+from path_filler import ROOT_FOLDER,GRAPHICS_FOLDER,AUDIO_FOLDER
 
 # if pygame and pygame_menu not installed:
 import sys
@@ -40,7 +41,7 @@ LOCALE_CREDITS = "O HŘE"
 LOCALE_QUIT = "KONEC"
 
 def load_player_name():
-	with open('../playername.txt', 'r') as f:
+	with open(ROOT_FOLDER + 'playername.txt', 'r') as f:
 		return f.readline()
 
 screen_width = settings.screen_width
@@ -56,11 +57,11 @@ class Program:
 		pygame.init()
 		self.main_menu_music=""
 		try:
-			self.main_menu_music = pygame.mixer.Sound('../audio/vodevil-15550.mp3')
+			self.main_menu_music = pygame.mixer.Sound(AUDIO_FOLDER + 'vodevil-15550.mp3')
 		except:
 			print("Music not loaded")
 
-		font = pygame.font.Font('../kyrou_7_wide_bold.ttf', 6) # 40
+		font = pygame.font.Font(ROOT_FOLDER + 'kyrou_7_wide_bold.ttf', 6) # 40
 		self.THEME_VODNIK = pygame_menu.Theme(
 			background_color=(0, 0, 0, 0),
 			cursor_color=(255, 255, 255),
@@ -97,7 +98,7 @@ class Program:
 
 	def main_background(self) -> None:
 		background_image = pygame_menu.BaseImage(
-			image_path="../graphics/menu.png"
+			image_path=GRAPHICS_FOLDER + "menu.png"
 		)
 		background_image.draw(self.screen)
 	def run(self):
@@ -198,7 +199,7 @@ class Program:
 		return play_menu
 
 	def load_score_board(self):
-		with open('../highscores.txt', 'r') as f:
+		with open(ROOT_FOLDER + 'highscores.txt', 'r') as f:
 			option = f.readline().split(" = ")
 			player_1 = [option[0], option[1]]
 			option = f.readline().split(" = ")
@@ -291,7 +292,7 @@ class Program:
 		window = (settings.screen_width,settings.screen_height)
 		background = pygame.Surface(window)
 
-		myimage = pygame.image.load('../graphics/pygame_logo.png')
+		myimage = pygame.image.load(GRAPHICS_FOLDER + 'pygame_logo.png')
 		picture = pygame.transform.scale(myimage, (round(settings.screen_width/1.5), round(settings.screen_height/1.5)))
 		
 		x1, y1 = background.get_width()//2, background.get_height()//2

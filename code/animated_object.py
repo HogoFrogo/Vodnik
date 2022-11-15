@@ -2,6 +2,7 @@ import os
 import pygame 
 import ctypes
 import os
+from path_filler import GRAPHICS_FOLDER
 
 def is_hidden(filepath):
     name = os.path.basename(os.path.abspath(filepath))
@@ -29,7 +30,7 @@ def count_files_in_folder(folder):
 	return count
 
 class AnimatedObject():
-	img_path = "../graphics/spirit/"
+	img_path = GRAPHICS_FOLDER +"spirit/"
 	
 	def change_status(self,status):
 		self.status=status

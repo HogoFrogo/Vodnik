@@ -1,11 +1,11 @@
 import pygame 
 from random import randint
-import math
+from path_filler import GRAPHICS_FOLDER
 
 from animated_object import AnimatedObject
 
 class Fish(AnimatedObject):
-	img_path = "../graphics/fish/"
+	img_path = GRAPHICS_FOLDER+"fish/"
 	x = 0
 	y = 0
 	speed_max = 0.7

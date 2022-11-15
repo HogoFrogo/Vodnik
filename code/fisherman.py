@@ -1,12 +1,11 @@
 import pygame 
 from random import randint
-import math
-import os
+from path_filler import GRAPHICS_FOLDER
 
 from animated_object import AnimatedObject
 
 class Fisherman(AnimatedObject):
-	img_path = "../graphics/fisherman/"
+	img_path = GRAPHICS_FOLDER + "fisherman/"
 	x = 0
 	y = 0
 	max_speed= 4 # 15
