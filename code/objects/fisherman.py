@@ -1,5 +1,6 @@
 import pygame 
 from random import randint
+from objects.fish import Fish
 from path_filler import GRAPHICS_FOLDER
 
 from objects.animated_object import AnimatedObject
@@ -47,3 +48,15 @@ class Fisherman(AnimatedObject):
 		self.change_status("go_home_"+type)
 		self.direction=-self.direction
 		self.speed_x=self.max_speed
+
+	def drop_fish(self):
+		if not self.fish =="":
+			self.fish.change_status("run")
+			self.fish.speed_x=Fish.speed_max
+			self.fish=""
+
+	def catch(self,fish: Fish):
+		self.fish=fish
+		self.change_status("catching")
+		fish.speed_x=0
+		fish.change_status("eating")

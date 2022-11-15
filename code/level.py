@@ -357,13 +357,9 @@ class Level:
 			for fisherman in self.fishermen:
 				if fisherman.status=="sitting" and fisherman.fish=="":
 					if fish.direction==1 and round(fish.x)+self.fish_width in range(fisherman.x+self.fisherman_width_half-self.fisherman_tolerance,fisherman.x+self.fisherman_width_half+self.fisherman_tolerance) and fish.status=="run":
-						fisherman.fish=fish
-						fish.speed_x=0
-						fish.change_status("eating")
+						fisherman.catch(fish)
 					elif fish.direction==-1 and round(fish.x) in range(fisherman.x+self.fisherman_width_half-self.fisherman_tolerance,fisherman.x+self.fisherman_width_half+self.fisherman_tolerance) and fish.status=="run":
-						fisherman.fish=fish
-						fish.speed_x=0
-						fish.change_status("eating")
+						fisherman.catch(fish)
 
 
 
@@ -419,36 +415,44 @@ class Level:
 					success = False
 					to_be_moved =""
 					for fisherman in self.fishermen:
-						if self.vodnik.x+self.vodnik_width_half in range(fisherman.x,fisherman.x+self.fisherman_width) and fisherman.status=="sitting":
+						if self.vodnik.x+self.vodnik_width_half in range(fisherman.x,fisherman.x+self.fisherman_width) and fisherman.status=="catching":
 							success= True
-							if isinstance(self.vodnik.inventory,Pneu):
-								fisherman.change_status("drowning")
-								self.score+=50
-								to_be_moved = fisherman
-								if not fisherman.fish =="":
-									fisherman.fish.change_status("run")
-									fisherman.fish.speed_x=Fish.speed_max
-									fisherman.fish=""
-							elif isinstance(self.vodnik.inventory,Bottle):
-								fisherman.change_status("angry")
-								fisherman.inventory=self.vodnik.inventory
-								if not fisherman.fish =="":
-									fisherman.fish.change_status("run")
-									fisherman.fish.speed_x=Fish.speed_max
-									fisherman.fish=""
-							elif isinstance(self.vodnik.inventory,Mug):
-								fisherman.change_status("happy")
-								self.score -= 20
-								if not fisherman.fish =="":
-									fisherman.fish.change_status("run")
-									fisherman.fish.speed_x=Fish.speed_max
-									fisherman.fish=""
+							print("catching!")
+							if isinstance(self.vodnik.inventory,Garbage):
+								fisherman.drop_fish()
+								if isinstance(self.vodnik.inventory,Pneu):
+									fisherman.change_status("drowning")
+									self.score+=50
+									to_be_moved = fisherman
+								elif isinstance(self.vodnik.inventory,Bottle):
+									fisherman.change_status("angry")
+									fisherman.inventory=self.vodnik.inventory
+								elif isinstance(self.vodnik.inventory,Mug):
+									fisherman.change_status("happy")
+									self.score -= 20
 							break
 					if not success:
-						self.all_garbage.append(self.vodnik.inventory)
-					if not to_be_moved=="":
-						self.fishermen.remove(to_be_moved)
-						self.fishermen.append(to_be_moved)
+						for fisherman in self.fishermen:
+							# if fisherman.status=="catching":
+							if self.vodnik.x+self.vodnik_width_half in range(fisherman.x,fisherman.x+self.fisherman_width) and fisherman.status=="sitting":
+								success= True
+								print("sitting!")
+								if isinstance(self.vodnik.inventory,Pneu):
+									fisherman.change_status("drowning")
+									self.score+=50
+									to_be_moved = fisherman
+								elif isinstance(self.vodnik.inventory,Bottle):
+									fisherman.change_status("angry")
+									fisherman.inventory=self.vodnik.inventory
+								elif isinstance(self.vodnik.inventory,Mug):
+									fisherman.change_status("happy")
+									self.score -= 20
+								break
+						if not success:
+							self.all_garbage.append(self.vodnik.inventory)
+						if not to_be_moved=="":
+							self.fishermen.remove(to_be_moved)
+							self.fishermen.append(to_be_moved)
 				else:
 					self.all_garbage.append(self.vodnik.inventory)
 				self.vodnik.drop_inventory()
