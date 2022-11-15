@@ -20,17 +20,9 @@ if missing:
 		# view commands to install pygame and pygame_menu libs
 
 import pygame, sys
-import pygame_menu.controls as ctrl
 from game import Game
+import pygame_fikmat_controls
 
-ctrl.KEY_APPLY = pygame.K_k
-ctrl.KEY_BACK = pygame.K_l
-ctrl.KEY_CLOSE_MENU = pygame.K_ESCAPE
-ctrl.KEY_LEFT = pygame.K_a
-ctrl.KEY_MOVE_DOWN = pygame.K_w
-ctrl.KEY_MOVE_UP = pygame.K_s  # Consider keys are "inverted"
-ctrl.KEY_RIGHT = pygame.K_d
-ctrl.KEY_TAB = pygame.K_TAB
 import pygame_menu
 # from lib.pygame_menu.pygame_menu import pygame_menu
 
