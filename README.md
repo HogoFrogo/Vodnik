@@ -9,9 +9,14 @@ The goal is to reach the highest score by taking care of a pond (cleaning trash 
 
 Highscore table for fikmat saved in highscore.json file.  
 Icon available in icon.png file.  
-Cover image for dark background is available in cover-for-dark-bg.png file.  
-Cover image for light background is available in cover-for-light-bg.png file.  
-Authors: Samuel Machat, Lenka Holubcová  
+Cover image for dark background is available in cover-for-dark-bg.png file (Fig. 1).   
+Cover image for light background is available in cover-for-light-bg.png file (Fig. 2).  
+![](cover-for-dark-bg.png?raw=true)  
+![](cover-for-light-bg.png?raw=true)  
+
+Authors: Samuel Machat, Lenka Holubcová   
+
+Launch by 
 
 ## Controls
 ⓌⓈⒶⒹ + action keys ⓀⓁ
@@ -23,6 +28,12 @@ Authors: Samuel Machat, Lenka Holubcová
 # Installation on Linux
 Save it to folder where you want it to be installed.  
 Launch main.py file via command line.
+---
+**NOTE**
+
+It is probably needed to run main.py from folder "code". (Universal behaviour of running it from anywhere will be checked and eventually implemented on the night from 2022-11-15 to 2022-11-16.)
+
+---
 
 if no module named pip error:  
 ```
@@ -44,3 +55,4 @@ sudo apt install python3-pip
 ```
 
 Finally launch the game twice.
+
