@@ -319,6 +319,9 @@ class Level:
 	def check_fisherman(self):
 		to_be_removed = ""
 		for fisherman in self.fishermen:
+			if (fisherman.direction==1 and fisherman.x>self.playground_border_right+100) or (fisherman.direction==-1 and fisherman.x<self.playground_border_left-100):
+				to_be_removed = fisherman
+				continue
 			if fisherman.status=="sitting":
 				if randint(0,200)<1:
 					self.all_garbage.append(Bottle(fisherman.x+self.fisherman_width_half,self.spawn_y))
