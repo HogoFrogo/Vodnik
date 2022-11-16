@@ -179,7 +179,7 @@ class Program:
 		main_menu.add.button(LOCALE_INSTRUCTIONS, self.instructions_menu)
 		#main_menu.add.menu_link(self.credits_menu, 'Credits')
 		main_menu.add.button(LOCALE_CREDITS, self.credits_menu)
-		main_menu.add.button(LOCALE_QUIT, pygame_menu.events.EXIT)
+		# main_menu.add.button(LOCALE_QUIT, pygame_menu.events.EXIT)
 		return main_menu
 
 	def create_play_menu(self):
