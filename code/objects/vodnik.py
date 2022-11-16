@@ -20,6 +20,11 @@ class Vodnik(AnimatedObject):
 	# inventory_y = 50
 	inventory_x = 270
 	inventory_y = 200
+	time_from_last_catching = 0
+	catching_time_limit = 30
+	time_from_last_dropping = 0
+	dropping_time_limit = 30
+	last_catched = ""
 
 	status="run"
 	frame_index=0
@@ -48,6 +53,8 @@ class Vodnik(AnimatedObject):
 
 	def update(self): 
 		self.x+=self.speed_x*self.direction
+		self.time_from_last_catching += 1
+		self.time_from_last_dropping += 1
 
 	def go_right(self):
 		self.direction = 1
@@ -60,7 +67,16 @@ class Vodnik(AnimatedObject):
 	def pick_up(self,object):
 		self.empty_hands = False
 		self.inventory = object
+		self.time_from_last_catching=0
 
 	def drop_inventory(self):
+		self.empty_inventory()
+		self.time_from_last_dropping = 0
+	
+	def empty_inventory(self):
+		self.last_catched = self.inventory
 		self.inventory=""
 		self.empty_hands=True
+
+	def is_recatching(self):
+		return self.time_from_last_catching<self.catching_time_limit and self.time_from_last_dropping<self.dropping_time_limit

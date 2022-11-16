@@ -32,6 +32,7 @@ FONT_FILE = ROOT_FOLDER + 'kyrou_7_wide_bold.ttf'
 
 LOCALE_END = "Konec"
 LOCALE_SCORE = "Skóre"
+FISHERMAN_AMOUNT_LIMIT = 10
 
 class Level:
 	sky_picture = pygame.image.load(SKY_FILE)
@@ -257,15 +258,18 @@ class Level:
 		self.check_fisherman()
 		self.check_fish()
 		self.check_garbage()
+		print("n_fishermen")
+		print(len(self.fishermen))
 
 		if randint(0,200)<1:
 			self.all_garbage.append(Pneu(randint(self.spawn_limit_x_left,self.spawn_limit_x_right),self.spawn_y))
 		level = round(self.frame/1300)
-		if randint(0,150)<1+level:
-			if randint(0,1)==1:
-				self.fishermen.append(Fisherman(-300,self.fisherman_y))
-			else:
-				self.fishermen.append(Fisherman(1300,self.fisherman_y))
+		if len(self.fishermen)<=FISHERMAN_AMOUNT_LIMIT:
+			if randint(0,150)<1+level:
+				if randint(0,1)==1:
+					self.fishermen.append(Fisherman(-300,self.fisherman_y))
+				else:
+					self.fishermen.append(Fisherman(1300,self.fisherman_y))
 
 	def check_end(self):
 		if not self.all_fish:
@@ -361,8 +365,6 @@ class Level:
 					elif fish.direction==-1 and round(fish.x) in range(fisherman.x+self.fisherman_width_half-self.fisherman_tolerance,fisherman.x+self.fisherman_width_half+self.fisherman_tolerance) and fish.status=="run":
 						fisherman.catch(fish)
 
-
-
 	def check_garbage(self):
 		#cleaned_garbage = {Pneu(630,300)}
 		to_be_removed = ""
@@ -382,29 +384,81 @@ class Level:
 		if keys[pygame.K_a]:
 			self.vodnik.go_left()
 		if keys[pygame.K_k]:
+					
 			to_be_removed=""
-			if self.vodnik.empty_hands and not keys[pygame.K_w]:
-				for garbage in self.all_garbage:
-					if garbage.y > self.reachable_y and (garbage.x+garbage.width_half) in range(self.vodnik.x-self.garbage_tolerance,self.vodnik.x+self.vodnik_width+self.garbage_tolerance):
-						to_be_removed = garbage
-						break
-				if not to_be_removed=="":
-					self.vodnik.pick_up(to_be_removed)
-					self.all_garbage.remove(to_be_removed)
-				elif self.vodnik.x<self.shelf_border:
-					self.vodnik.pick_up(Mug(0,0))
-			else:
-				if keys[pygame.K_w] and isinstance(self.vodnik.inventory,Mug):
+			if not self.vodnik.empty_hands: # pokud má něco v inventáři
+				if keys[pygame.K_w] and isinstance(self.vodnik.inventory,Mug): # pokud má v inventáři hrníček a kliká hore
 					success = False
 					for spirit in self.spirits:
 						if self.vodnik.x+self.vodnik_width_half in range(spirit.x+self.spirit_width_half-self.spirit_tolerance,spirit.x+self.spirit_width_half+self.spirit_tolerance):
-							success = True
+							success = True # chytne duši
 							self.vodnik.drop_inventory()
 							to_be_removed=spirit
 							self.score += 100
 							break
 					if success:
 						self.spirits.remove(to_be_removed)
+			else: # pokud v rukou nic nemá
+				class_name = "" # class_name = type(x).__name__
+				last_item = ""
+				bottle = ""
+				pneu = ""
+				mug = ""
+				prefered = ""
+				for garbage in self.all_garbage:
+						if garbage.y > self.reachable_y and (garbage.x+garbage.width_half) in range(self.vodnik.x-self.garbage_tolerance,self.vodnik.x+self.vodnik_width+self.garbage_tolerance):
+							if isinstance(garbage,Pneu) and pneu=="":
+								pneu = garbage
+								if keys[pygame.K_w]:
+									to_be_removed = garbage
+									break
+							elif isinstance(garbage,Bottle) and bottle=="":
+								bottle = garbage
+								if keys[pygame.K_s]:
+									to_be_removed = garbage
+									break
+							elif isinstance(garbage,Mug) and mug=="":
+								mug = garbage
+				if not to_be_removed=="":
+					self.vodnik.pick_up(to_be_removed)
+					self.all_garbage.remove(to_be_removed)
+				else: # nebylo prioritizováno, nebo nebylo prioritizováno úspěšně
+					if self.vodnik.is_recatching():
+						print("recatching")
+						if (isinstance(self.vodnik.last_catched, Mug)) and not pneu=="":
+							to_be_removed = pneu
+						elif (isinstance(self.vodnik.last_catched, Mug)) and not bottle=="":
+							to_be_removed = bottle
+						elif isinstance(self.vodnik.last_catched, Pneu) and not bottle=="":
+							to_be_removed = bottle
+						elif (isinstance(self.vodnik.last_catched, Pneu)) and not mug=="":
+							to_be_removed = mug
+						elif (isinstance(self.vodnik.last_catched, Bottle) or self.vodnik.last_catched=="") and not mug=="":
+							to_be_removed = mug
+						elif (isinstance(self.vodnik.last_catched, Bottle) or self.vodnik.last_catched=="") and not pneu=="":
+							to_be_removed = pneu
+						elif self.vodnik.x<self.shelf_border: # je v dosahu poličky
+							if not mug=="": # pokud je u hrníčku, vezmi hrníček
+								to_be_removed=mug
+							else:
+								self.vodnik.pick_up(Mug(0,0)) # vezme si hrníček
+					if to_be_removed=="": # pokud nic nechytil
+						print("not recatching")
+						if not mug=="": # pokud je u hrníčku, vezmi hrníček
+							to_be_removed=mug
+						elif self.vodnik.x<self.shelf_border: # je v dosahu poličky
+							self.vodnik.pick_up(Mug(0,0)) # vezme si hrníček
+						elif not pneu=="":
+							to_be_removed=pneu
+						elif not bottle=="":
+							to_be_removed=bottle
+					if not to_be_removed=="":		
+						self.vodnik.pick_up(to_be_removed)
+						self.all_garbage.remove(to_be_removed)
+						
+					
+
+				
 		if keys[pygame.K_l]:
 			if self.vodnik.empty_hands == False:
 				self.vodnik.inventory.x=self.vodnik.x+self.vodnik_width_half-self.vodnik.inventory.width_half
