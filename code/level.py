@@ -252,8 +252,12 @@ class Level:
 		for fish in self.all_fish:
 			if fish.x+self.fish_width>self.playground_border_right and fish.status=="run" and fish.direction==1:
 				fish.turn()
+				if self.state=="run":
+					self.score += 50
 			elif fish.x<self.playground_border_left and fish.status=="run" and fish.direction==-1:
 				fish.turn()
+				if self.state=="run":
+					self.score += 50
 			fish.update()
 			fish.draw(self.display_surface)
 		
