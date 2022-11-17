@@ -217,6 +217,9 @@ class Level:
 		#draw_shelf
 		self.view_image_2(self.shelf_picture,self.shelf_position)
 
+		#draw_glass_container
+		self.view_image_2(self.glass_container_picture,self.glass_container_position)
+
 		#draw_fishermen
 		for fisherman in self.fishermen:
 			if not fisherman.status=="go_home_fish" and not fisherman.status=="go_home_mug":
@@ -226,9 +229,6 @@ class Level:
 					fisherman.direction=1
 			fisherman.update()
 			fisherman.draw(self.display_surface)
-
-		#draw_glass_container
-		self.view_image_2(self.glass_container_picture,self.glass_container_position)
 
 		#draw_vodnik
 		self.vodnik.update()
