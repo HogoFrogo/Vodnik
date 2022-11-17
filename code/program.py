@@ -29,6 +29,8 @@ import pygame_menu
 LOCALE_PROGRAM_NAME = "Vodník František"
 LOCALE_PLAY = "HRÁT"
 LOCALE_PLAY_2 = "Hrát"
+LOCALE_SAVE = "Uložit"
+LOCALE_CONGRATULATIONS = "Dobrá práce!"
 LOCALE_SCOREBOARD = "TABULKA VÍTĚZŮ"
 LOCALE_INSTRUCTIONS = "INSTRUKCE"
 LOCALE_CREDITS = "O HŘE"
@@ -46,6 +48,7 @@ MAIN_MENU_MUSIC_FILE = AUDIO_FOLDER + 'vodevil-15550.mp3'
 FONT_FILE = ROOT_FOLDER + 'kyrou_7_wide_bold.ttf'
 MENU_IMAGE_FILE = GRAPHICS_FOLDER + "menu.png"
 HIGHSCORE_FILE = ROOT_FOLDER + 'highscores.txt'
+HIGHSCORE_FILE_2 = ROOT_FOLDER + "highscore.json"
 PYGAME_LOGO_FILE = GRAPHICS_FOLDER + 'pygame_logo.png'
 
 def load_player_name():
@@ -69,6 +72,7 @@ class Program:
 		except:
 			print("Music not loaded")
 
+		self.scoreboard = self.load_score_board()
 		font = pygame.font.Font(FONT_FILE, 6) # 40
 		self.THEME_VODNIK = pygame_menu.Theme(
 			background_color=(0, 0, 0, 0),
@@ -118,7 +122,7 @@ class Program:
 	def run_game(self):
 		if(not self.main_menu_music==""):
 			self.main_menu_music.stop()
-		self.game = Game(self.screen)
+		self.game = Game(self.screen,self.create_play_menu,self.scoreboard[9][1])
 		global player_name
 		self.game.player_name = player_name
 		while True:
@@ -136,25 +140,27 @@ class Program:
 					self.main_menu_music.play(loops = -1)
 				break
 		
+		self.handle_highscore()
+		
 		self.scoreboard_menu.clear()
 
-		scoreboard = self.load_score_board()
+		self.scoreboard = self.load_score_board()
 
 		self.scoreboard_menu.add.label(LOCALE_SCOREBOARD)
 		table = self.scoreboard_menu.add.table("scoreboard")
 		# table.set_border(4,"red")
 		table.set_background_color((233,206,146))
 		# ALIGN_RIGHT
-		self.score1 = table.add_row(['  1.',' {0}'.format(scoreboard[0][1][:-1]), '    {0}'.format(scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  2.',' {0}'.format(scoreboard[1][1][:-1]), '    {0}'.format(scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  3.',' {0}'.format(scoreboard[2][1][:-1]), '    {0}'.format(scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  4.',' {0}'.format(scoreboard[3][1][:-1]), '    {0}'.format(scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  5.',' {0}'.format(scoreboard[4][1][:-1]), '    {0}'.format(scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  6.',' {0}'.format(scoreboard[5][1][:-1]), '    {0}'.format(scoreboard[5][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  7.',' {0}'.format(scoreboard[6][1][:-1]), '    {0}'.format(scoreboard[6][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  8.',' {0}'.format(scoreboard[7][1][:-1]), '    {0}'.format(scoreboard[7][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  9.',' {0}'.format(scoreboard[8][1][:-1]), '    {0}'.format(scoreboard[8][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 10.',' {0}'.format(scoreboard[9][1][:-1]), '    {0}'.format(scoreboard[9][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  1.',' {0}'.format(self.scoreboard[0][1]), '    {0}'.format(self.scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  2.',' {0}'.format(self.scoreboard[1][1]), '    {0}'.format(self.scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  3.',' {0}'.format(self.scoreboard[2][1]), '    {0}'.format(self.scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  4.',' {0}'.format(self.scoreboard[3][1]), '    {0}'.format(self.scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  5.',' {0}'.format(self.scoreboard[4][1]), '    {0}'.format(self.scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  6.',' {0}'.format(self.scoreboard[5][1]), '    {0}'.format(self.scoreboard[5][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  7.',' {0}'.format(self.scoreboard[6][1]), '    {0}'.format(self.scoreboard[6][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  8.',' {0}'.format(self.scoreboard[7][1]), '    {0}'.format(self.scoreboard[7][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  9.',' {0}'.format(self.scoreboard[8][1]), '    {0}'.format(self.scoreboard[8][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row([' 10.',' {0}'.format(self.scoreboard[9][1]), '    {0}'.format(self.scoreboard[9][0])],None,(233,206,146),None,None,None,"black")
 		self.scoreboard_menu.render()
 		self.main_menu.full_reset()
 		# self.play_menu = self.create_play_menu()
@@ -182,6 +188,37 @@ class Program:
 		# main_menu.add.button(LOCALE_QUIT, pygame_menu.events.EXIT)
 		return main_menu
 
+	def handle_highscore(self):
+		scores = self.load_score_board()
+		print("score")
+		print(self.game.level.score)
+		global player_name
+		print(player_name)
+		new_score = [player_name,self.game.level.score]
+		scores.append(new_score)
+		scores = sorted(scores, key=lambda x: x[1],reverse=True)
+
+		f = open(HIGHSCORE_FILE, "w")
+		for score in scores:
+			f.write("{} = {}\n".format(score[0],score[1]))
+		
+		# highscores export
+		f = open(HIGHSCORE_FILE_2, "w")
+		i = 0
+		f.write('{"scores":[')
+		for score in scores:
+			f.write('{"name":"')
+			f.write(score[0])
+			f.write('","score":')
+			f.write(str(score[1]))
+			f.write('}')
+			# f.write('{"name":"","score":}')
+			i += 1
+			if i<10:
+				f.write(',')
+			else:
+				break
+		f.write('}]}')
 	def create_play_menu(self):
 		def add_letter_to_name(self,selected_value):
 			global player_name
@@ -196,64 +233,65 @@ class Program:
 			name_label.set_title(LOCALE_NAME+": {0}".format(player_name))
 			name_label.render()
 		
-		play_menu = pygame_menu.Menu('Play', screen_width, screen_height,
+		play_menu = pygame_menu.Menu(LOCALE_CONGRATULATIONS, screen_width, screen_height,
 						theme=self.THEME_VODNIK)
+		name_label = play_menu.add.label(LOCALE_CONGRATULATIONS)
 		name_label = play_menu.add.label(LOCALE_NAME+": {0}".format(player_name))
 
 		self.letter_input = play_menu.add.selector(LOCALE_ADD_CHARACTER + ':', [('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D'), ('E', 'E'), ('F', 'F'), ('G', 'G'), ('H', 'H'), ('I', 'I'), ('J', 'J'), ('K', 'K'), ('L', 'L'), ('M', 'M'), ('N', 'N'), ('O', 'O'), ('P', 'P'), ('Q', 'Q'), ('R', 'R'), ('S', 'S'), ('T', 'T'), ('U', 'U'), ('V', 'V'), ('W', 'W'), ('X', 'X'), ('Y', 'Y'), ('Z', 'Z'), ('0', '0'), ('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5'), ('6', '6'), ('7', '7'), ('8', '8'), ('9', '9'), ('_', '_')],onreturn=add_letter_to_name)
 		play_menu.add.button(LOCALE_DELETE_CHARACTER, delete_character)
-		play_menu.add.button(LOCALE_PLAY_2, self.run_game)
+		# play_menu.add.button(LOCALE_PLAY_2, self.run_game)
+		play_menu.add.button(LOCALE_SAVE, play_menu.disable)
 		# play_menu.add.button('Play', pygame_menu.events.RESET)
 		return play_menu
 
 	def load_score_board(self):
 		with open(HIGHSCORE_FILE, 'r') as f:
 			option = f.readline().split(" = ")
-			player_1 = [option[0], option[1]]
+			player_1 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_2 = [option[0], option[1]]
+			player_2 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_3 = [option[0], option[1]]
+			player_3 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_4 = [option[0], option[1]]
+			player_4 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_5 = [option[0], option[1]]
+			player_5 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_6 = [option[0], option[1]]
+			player_6 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_7 = [option[0], option[1]]
+			player_7 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_8 = [option[0], option[1]]
+			player_8 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_9 = [option[0], option[1]]
+			player_9 = [option[0], int(option[1])]
 			option = f.readline().split(" = ")
-			player_10 = [option[0], option[1]]
+			player_10 = [option[0], int(option[1])]
 		return [player_1,player_2,player_3,player_4,player_5,player_6,player_7,player_8,player_9,player_10]
 
 	def create_scoreboard_menu(self):
 		menu = pygame_menu.Menu(LOCALE_SCOREBOARD, screen_width, screen_height,
 						theme=self.THEME_VODNIK)
-		scoreboard = self.load_score_board()
 
 		menu.add.label(LOCALE_SCOREBOARD)
 		table = menu.add.table("scoreboard")
 		# table.set_border(4,"red")
 		table.set_background_color(((233,206,146)))
 		# ALIGN_RIGHT
-		self.score1 = table.add_row(['  1.',' {0}'.format(scoreboard[0][1][:-1]), '    {0}'.format(scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  2.',' {0}'.format(scoreboard[1][1][:-1]), '    {0}'.format(scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  3.',' {0}'.format(scoreboard[2][1][:-1]), '    {0}'.format(scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  4.',' {0}'.format(scoreboard[3][1][:-1]), '    {0}'.format(scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  5.',' {0}'.format(scoreboard[4][1][:-1]), '    {0}'.format(scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  6.',' {0}'.format(scoreboard[5][1][:-1]), '    {0}'.format(scoreboard[5][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  7.',' {0}'.format(scoreboard[6][1][:-1]), '    {0}'.format(scoreboard[6][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  8.',' {0}'.format(scoreboard[7][1][:-1]), '    {0}'.format(scoreboard[7][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row(['  9.',' {0}'.format(scoreboard[8][1][:-1]), '    {0}'.format(scoreboard[8][0])],None,(233,206,146),None,None,None,"black")
-		self.score1 = table.add_row([' 10.',' {0}'.format(scoreboard[9][1][:-1]), '    {0}'.format(scoreboard[9][0])],None,(233,206,146),None,None,None,"black")
-		# self.score2 = table.add.label("2) {0} by {1}".format(scoreboard[1][1],scoreboard[1][0]))
-		# self.score3 = menu.add.label("3) {0} by {1}".format(scoreboard[2][1],scoreboard[2][0]))
-		# self.score4 = menu.add.label("4) {0} by {1}".format(scoreboard[3][1],scoreboard[3][0]))
-		# self.score5 = menu.add.label("5) {0} by {1}".format(scoreboard[4][1],scoreboard[4][0]))
+		self.score1 = table.add_row(['  1.',' {0}'.format(self.scoreboard[0][1]), '    {0}'.format(self.scoreboard[0][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  2.',' {0}'.format(self.scoreboard[1][1]), '    {0}'.format(self.scoreboard[1][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  3.',' {0}'.format(self.scoreboard[2][1]), '    {0}'.format(self.scoreboard[2][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  4.',' {0}'.format(self.scoreboard[3][1]), '    {0}'.format(self.scoreboard[3][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  5.',' {0}'.format(self.scoreboard[4][1]), '    {0}'.format(self.scoreboard[4][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  6.',' {0}'.format(self.scoreboard[5][1]), '    {0}'.format(self.scoreboard[5][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  7.',' {0}'.format(self.scoreboard[6][1]), '    {0}'.format(self.scoreboard[6][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  8.',' {0}'.format(self.scoreboard[7][1]), '    {0}'.format(self.scoreboard[7][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row(['  9.',' {0}'.format(self.scoreboard[8][1]), '    {0}'.format(self.scoreboard[8][0])],None,(233,206,146),None,None,None,"black")
+		self.score1 = table.add_row([' 10.',' {0}'.format(self.scoreboard[9][1]), '    {0}'.format(self.scoreboard[9][0])],None,(233,206,146),None,None,None,"black")
+		# self.score2 = table.add.label("2) {0} by {1}".format(self.scoreboard[1][1],self.scoreboard[1][0]))
+		# self.score3 = menu.add.label("3) {0} by {1}".format(self.scoreboard[2][1],self.scoreboard[2][0]))
+		# self.score4 = menu.add.label("4) {0} by {1}".format(self.scoreboard[3][1],self.scoreboard[3][0]))
+		# self.score5 = menu.add.label("5) {0} by {1}".format(self.scoreboard[4][1],self.scoreboard[4][0]))
 		return menu
 
 	def create_credits_menu(self):

@@ -1,5 +1,6 @@
 
 import pygame
+import pygame_menu
 
 from level import Level
 from path_filler import ROOT_FOLDER,GRAPHICS_FOLDER,AUDIO_FOLDER
@@ -8,9 +9,12 @@ ICON_FILE = GRAPHICS_FOLDER + 'icon.png'
 GAME_MUSIC_FILE = AUDIO_FOLDER + 'bleeps-and-bloops-classic-arcade-game-116838.mp3'
 HIGHSCORE_FILE = ROOT_FOLDER + 'highscores.txt'
 HIGHSCORE_FILE_2 = ROOT_FOLDER + "highscore.json"
+MENU_IMAGE_FILE = GRAPHICS_FOLDER + "menu.png"
 
 class Game:
-	def __init__(self, screen, music_volume=50,sounds_volume=50):
+	def __init__(self, screen, create_name_menu="", lowest_score = 0, music_volume=50,sounds_volume=50):
+		self.create_name_menu = create_name_menu
+		self.lowest_score = lowest_score
 		# game attributes
 		self.max_level = 7
 		self.max_health = 100
@@ -23,7 +27,6 @@ class Game:
 		pygame.display.set_icon(programIcon)
 		pygame.mouse.set_visible(False)
 
-		self.music_volume = music_volume
 		self.sounds_volume = sounds_volume
 
 		self.player_name = ""
@@ -112,39 +115,19 @@ class Game:
 			player_10 = [option[0], int(option[1])]
 		return [player_1,player_2,player_3,player_4,player_5,player_6,player_7,player_8,player_9,player_10]
 
-	def handle_highscore(self):
-		scores = self.load_score_board()
-		new_score = [self.player_name,self.level.score]
-		scores.append(new_score)
-		scores = sorted(scores, key=lambda x: x[1],reverse=True)
-
-		f = open(HIGHSCORE_FILE, "w")
-		for score in scores:
-			f.write("{} = {}\n".format(score[0],score[1]))
-		
-		# highscores export
-		f = open(HIGHSCORE_FILE_2, "w")
-		i = 0
-		f.write('{"scores":[')
-		for score in scores:
-			f.write('{"name":"')
-			f.write(score[0])
-			f.write('","score":')
-			f.write(str(score[1]))
-			f.write('}')
-			# f.write('{"name":"","score":}')
-			i += 1
-			if i<10:
-				f.write(',')
-			else:
-				break
-		f.write('}]}')
-			
+	def main_background(self) -> None:
+		background_image = pygame_menu.BaseImage(
+			image_path=MENU_IMAGE_FILE
+		)
+		background_image.draw(self.screen)		
 		
 	def run(self,player_name=""):
 		if self.level.state == 'end':
-			self.handle_highscore()
 			self.status = "end"
+			if self.level.score > int(self.lowest_score):
+				self.name_menu = self.create_name_menu()
+				self.name_menu.mainloop(self.screen,self.main_background)
+			
 			if(not self.level_bg_music==""):
 				self.level_bg_music.stop()
 		else:
