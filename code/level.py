@@ -127,7 +127,7 @@ class Level:
 		self.difficulty = difficulty
 		self.state = 'tutorial'
 		self.player_name = "Mr. Croak"
-		self.score=800
+		self.score=0
 		self.spirit_caught = False
 
 		# overworld connection 
@@ -150,9 +150,9 @@ class Level:
 		self.all_fish.add(fish_2)
 		fish_3 =Fish(75,153)
 		self.all_fish.add(fish_3)
-		self.all_fish.remove(fish_1)
-		self.all_fish.remove(fish_2)
-		self.all_fish.remove(fish_3)
+		# self.all_fish.remove(fish_1)
+		# self.all_fish.remove(fish_2)
+		# self.all_fish.remove(fish_3)
 
 		# fisherman = Fisherman(-300,100)
 		self.hint_fisherman = Fisherman(-75,self.fisherman_y)
