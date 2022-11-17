@@ -9,7 +9,7 @@ ICON_FILE = GRAPHICS_FOLDER + 'icon.png'
 GAME_MUSIC_FILE = AUDIO_FOLDER + 'bleeps-and-bloops-classic-arcade-game-116838.mp3'
 HIGHSCORE_FILE = ROOT_FOLDER + 'highscores.txt'
 HIGHSCORE_FILE_2 = ROOT_FOLDER + "highscore.json"
-MENU_IMAGE_FILE = GRAPHICS_FOLDER + "menu.png"
+MENU_IMAGE_FILE = GRAPHICS_FOLDER + "highscore_menu.png"
 
 class Game:
 	def __init__(self, screen, create_name_menu="", lowest_score = 0, music_volume=50,sounds_volume=50):
