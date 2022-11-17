@@ -27,7 +27,15 @@ SHELF_FILE = GRAPHICS_FOLDER + "shelf.png"
 GLASS_CONTAINER_FILE = GRAPHICS_FOLDER + "glass_container.png"
 WATER_FILE = GRAPHICS_FOLDER + "water.png"
 FOREGROUND_FILE = GRAPHICS_FOLDER + "foreground.png"
+HELP_PICK_UP_FILE = GRAPHICS_FOLDER + "help_pick_up.png"
+THROW_BOTTLE_FILE = GRAPHICS_FOLDER + "help_throw_bottle.png"
+HELP_PICK_UP_TIRE_FILE = GRAPHICS_FOLDER + "help_pick_up_tire.png"
+HELP_HANG_TIRE_FILE = GRAPHICS_FOLDER + "help_hang_tire.png"
+HELP_PICK_UP_MUG_FILE = GRAPHICS_FOLDER + "help_pick_up_mug.png"
+HELP_CATCH_SOUL_FILE = GRAPHICS_FOLDER + "help_catch_soul.png"
+
 MODAL_WINDOW_IMAGE_FILE = GRAPHICS_FOLDER + "modal.png"
+
 FONT_FILE = ROOT_FOLDER + 'kyrou_7_wide_bold.ttf'
 
 LOCALE_END = "Konec"
@@ -43,6 +51,12 @@ class Level:
 	glass_container_picture = pygame.image.load(GLASS_CONTAINER_FILE)
 	water_picture = pygame.image.load(WATER_FILE)
 	foreground_picture = pygame.image.load(FOREGROUND_FILE)
+	help_pick_up_img = pygame.image.load(HELP_PICK_UP_FILE)
+	throw_bottle_img = pygame.image.load(THROW_BOTTLE_FILE)
+	help_pick_up_tire_img = pygame.image.load(HELP_PICK_UP_TIRE_FILE)
+	help_hang_tire_img = pygame.image.load(HELP_HANG_TIRE_FILE)
+	help_pick_up_mug_img = pygame.image.load(HELP_PICK_UP_MUG_FILE)
+	help_catch_soul_img = pygame.image.load(HELP_CATCH_SOUL_FILE)
 	# shelf_position = (80,700)
 	shelf_position = (20,160)
 	# glass_container_position = (1000, 700)
@@ -71,7 +85,7 @@ class Level:
 	fisherman_width_half = 42
 	fisherman_width = 85
 	fisherman_tolerance = 7
-	playground_bottom = 229
+	playground_bottom = 219
 
 	# vodnik_position_x = 200
 	# vodnik_position_y = 700
@@ -111,9 +125,10 @@ class Level:
 		self.world_shift = 0
 		self.current_x = None
 		self.difficulty = difficulty
-		self.state = 'begin'
+		self.state = 'tutorial'
 		self.player_name = "Mr. Croak"
 		self.score=0
+		self.spirit_caught = False
 
 		# overworld connection 
 		self.create_overworld = create_overworld
@@ -136,14 +151,19 @@ class Level:
 		self.all_fish.add(fish_3)
 
 		# fisherman = Fisherman(-300,100)
-		fisherman = Fisherman(-75,self.fisherman_y)
-		self.fishermen = [fisherman]
+		self.hint_fisherman = Fisherman(-75,self.fisherman_y)
+		self.hint_fisherman.goal=135
+		self.fishermen = [self.hint_fisherman]
+		self.fishermen.remove(self.hint_fisherman)
 
 		# garbage_a = Bottle(850,300)
 		# garbage_b = Pneu(630,300)
-		garbage_a = Bottle(212,75)
-		garbage_b = Pneu(157,75)
-		self.all_garbage = [garbage_a,garbage_b]
+
+		self.hint_step=1
+
+		self.hint_bottle = Bottle(117,210)
+		self.hint_tire = Pneu(187,75)
+		self.all_garbage = [self.hint_bottle,self.hint_tire]
 
 		spirit = Spirit(157,75)
 		self.spirits = {spirit}
@@ -216,7 +236,10 @@ class Level:
 		to_be_removed.remove(spirit)
 		for spirit in self.spirits:
 			if spirit.y<self.spirit_disappears:
-				to_be_removed.add(spirit)
+				if spirit == self.hint_spirit:
+					spirit.speed_y=0
+				else:
+					to_be_removed.add(spirit)
 			spirit.update()
 			spirit.draw(self.display_surface)
 		for spirit in to_be_removed:
@@ -252,7 +275,7 @@ class Level:
 		# self.display_surface.blit(text, (20, 20))
 		self.display_surface.blit(text, (5, 5))
 		
-		pygame.display.flip()
+
 
 		self.check_end()
 		self.check_fisherman()
@@ -261,6 +284,14 @@ class Level:
 		print("n_fishermen")
 		print(len(self.fishermen))
 
+		if self.state == "tutorial":
+			self.view_tutorial()
+		else:
+			self.add_random_items()
+
+		pygame.display.flip()
+
+	def add_random_items(self):	
 		if randint(0,200)<1:
 			self.all_garbage.append(Pneu(randint(self.spawn_limit_x_left,self.spawn_limit_x_right),self.spawn_y))
 		level = round(self.frame/1300)
@@ -269,14 +300,69 @@ class Level:
 				if randint(0,1)==1:
 					self.fishermen.append(Fisherman(-300,self.fisherman_y))
 				else:
-					self.fishermen.append(Fisherman(1300,self.fisherman_y))
+					self.fishermen.append(Fisherman(1300,self.fisherman_y))		
+
+	def view_tutorial(self):
+		print(self.hint_fisherman.status)
+		if self.hint_fisherman.status=="go_home_fish":
+			# oh no
+			print("oh")
+			self.hint_step=-1
+		elif self.vodnik.inventory == self.hint_bottle:
+			self.hint_step=2
+		elif self.hint_step==2 and self.score==10:
+			self.hint_step=3
+			self.fishermen = [self.hint_fisherman]
+		elif self.hint_step==3 and (self.hint_fisherman.status=="sitting" or self.hint_fisherman.status=="catching"):
+			self.hint_step=4
+		elif (self.hint_step==4 or self.hint_step==5) and self.vodnik.inventory == self.hint_tire:
+			self.hint_step=5
+		elif self.hint_fisherman.status=="drowning":
+			self.hint_step=6
+			if isinstance(self.vodnik.inventory,Mug):
+				self.hint_step=7
+		elif self.hint_step==5:
+			self.hint_step=4
+		elif self.hint_fisherman.status=="go_home_mug":
+			self.hint_step=3
+			new_fisherman = Fisherman(-75,self.fisherman_y)
+			new_fisherman.goal=135
+			self.hint_fisherman_2 = self.hint_fisherman
+			self.hint_fisherman = new_fisherman
+			self.fishermen.append(self.hint_fisherman)
+		if self.spirit_caught:
+			self.state="run"
+			self.hint_step=-1
+		self.view_hint(self.hint_step)
 
 	def check_end(self):
 		if not self.all_fish:
 			self.state="end"
 			self.view_window(LOCALE_SCORE + ": {}".format(self.score),MODAL_WINDOW_IMAGE_FILE)
 
-	
+	def view_hint(self,hint_step):
+		print("hint")
+		match hint_step:
+		# inventory
+		# pick up bottle
+			case 1:
+				self.view_image_2(self.help_pick_up_img)
+		# throw bottle to trash
+			case 2:
+				self.view_image_2(self.throw_bottle_img)
+		# warn a poacher is comming
+		# hint to pick up a tire
+			case 4:
+				self.view_image_2(self.help_pick_up_tire_img)
+		# hint how to hang the tire on the rod
+			case 5:
+				self.view_image_2(self.help_hang_tire_img)
+		# pick up a mug
+			case 6:
+				self.view_image_2(self.help_pick_up_mug_img)
+		# catch a soul
+			case 7:
+				self.view_image_2(self.help_catch_soul_img)
 
 	def view_window(self,text_content,image_path,dialog_sound=""):
 			if dialog_sound != "":
@@ -331,8 +417,10 @@ class Level:
 			
 			if not fisherman.fish=="":
 				fisherman.time_to_catch-=1
+				if fisherman==self.hint_fisherman:
+					fisherman.time_to_catch=1
 				if fisherman.time_to_catch==0:
-					fisherman.change_status("catching")
+					fisherman.change_status("happy")
 					self.all_fish.remove(fisherman.fish)
 				if fisherman.time_to_catch==-30:
 					fisherman.go_home("fish")
@@ -342,7 +430,10 @@ class Level:
 				fisherman.time_to_drown-=1
 				if fisherman.time_to_drown<1:
 					print("dead")
-					self.spirits.add(Spirit(fisherman.x+self.fisherman_width_half-self.spirit_width_half,fisherman.y+self.spirits_below_fisherman_y))
+					spirit = Spirit(fisherman.x+self.fisherman_width_half-self.spirit_width_half,fisherman.y+self.spirits_below_fisherman_y)
+					if fisherman == self.hint_fisherman:
+						self.hint_spirit = spirit
+					self.spirits.add(spirit)
 					to_be_removed = fisherman
 			if fisherman.status=="angry":
 				fisherman.time_to_cool_down-=1
@@ -398,6 +489,7 @@ class Level:
 							self.vodnik.drop_inventory()
 							to_be_removed=spirit
 							self.score += 100
+							self.spirit_caught = True
 							break
 					if success:
 						self.spirits.remove(to_be_removed)
