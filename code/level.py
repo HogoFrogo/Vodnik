@@ -40,7 +40,7 @@ FONT_FILE = ROOT_FOLDER + 'kyrou_7_wide_bold.ttf'
 
 LOCALE_END = "Konec"
 LOCALE_SCORE = "Skóre"
-FISHERMAN_AMOUNT_LIMIT = 10
+FISHERMAN_AMOUNT_LIMIT = 20
 
 class Level:
 	sky_picture = pygame.image.load(SKY_FILE)
@@ -150,6 +150,9 @@ class Level:
 		self.all_fish.add(fish_2)
 		fish_3 =Fish(75,153)
 		self.all_fish.add(fish_3)
+		fish_4 =Fish(130,168)
+		fish_4.direction=-1
+		self.all_fish.add(fish_4)
 		# self.all_fish.remove(fish_1)
 		# self.all_fish.remove(fish_2)
 		# self.all_fish.remove(fish_3)
@@ -258,6 +261,8 @@ class Level:
 				fish.turn()
 				if self.state=="run":
 					self.score += 50
+			elif randint(0,400)<1 and fish.status=="run":
+				fish.turn()
 			fish.update()
 			fish.draw(self.display_surface)
 		
@@ -344,7 +349,7 @@ class Level:
 		self.view_hint(self.hint_step)
 
 	def check_end(self):
-		if not self.all_fish:
+		if len(self.all_fish)<2:
 			self.state="end"
 			self.view_window(LOCALE_SCORE + ": {}".format(self.score),MODAL_WINDOW_IMAGE_FILE)
 
