@@ -12,7 +12,8 @@ class Fisherman(AnimatedObject):
 	max_speed= 4 # 15
 	speed_x = 4 # 15
 	direction =1
-	time_to_catch = 120
+	time_to_catch_max = 120
+	time_to_catch = time_to_catch_max
 	time_to_drown = 60
 	time_to_cool_down_max = 100
 	time_to_cool_down = 100

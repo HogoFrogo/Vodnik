@@ -311,9 +311,14 @@ class Level:
 		if len(self.fishermen)<=FISHERMAN_AMOUNT_LIMIT:
 			if randint(0,150)<1+level:
 				if randint(0,1)==1:
-					self.fishermen.append(Fisherman(-300,self.fisherman_y))
+					new_fisherman = Fisherman(-300,self.fisherman_y)
 				else:
-					self.fishermen.append(Fisherman(1300,self.fisherman_y))		
+					new_fisherman = Fisherman(1300,self.fisherman_y)
+				self.fishermen.append(new_fisherman)		
+				if level>3:
+					new_fisherman.time_to_catch_max=60
+					new_fisherman.time_to_catch=60
+
 
 	def view_tutorial(self):
 		print(self.hint_fisherman.status)
@@ -438,7 +443,7 @@ class Level:
 				if fisherman.time_to_catch==-30:
 					fisherman.go_home("fish")
 			else:
-				fisherman.time_to_catch=120
+				fisherman.time_to_catch=fisherman.time_to_catch_max
 			if fisherman.status=="drowning":
 				fisherman.time_to_drown-=1
 				if fisherman.time_to_drown<1:
