@@ -86,7 +86,7 @@ class Level:
 	fisherman_width_half = 42
 	fisherman_width = 85
 	fisherman_tolerance = 7
-	playground_bottom = 214
+	playground_bottom = 225
 
 	# vodnik_position_x = 200
 	# vodnik_position_y = 700
