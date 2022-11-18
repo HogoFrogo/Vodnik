@@ -85,7 +85,7 @@ class Level:
 	fisherman_width_half = 42
 	fisherman_width = 85
 	fisherman_tolerance = 7
-	playground_bottom = 219
+	playground_bottom = 214
 
 	# vodnik_position_x = 200
 	# vodnik_position_y = 700
@@ -311,9 +311,9 @@ class Level:
 		if len(self.fishermen)<=FISHERMAN_AMOUNT_LIMIT:
 			if randint(0,150)<1+level:
 				if randint(0,1)==1:
-					new_fisherman = Fisherman(-300,self.fisherman_y)
+					new_fisherman = Fisherman(-self.fisherman_width,self.fisherman_y)
 				else:
-					new_fisherman = Fisherman(1300,self.fisherman_y)
+					new_fisherman = Fisherman(screen_width,self.fisherman_y)
 				self.fishermen.append(new_fisherman)		
 				if level>3:
 					new_fisherman.time_to_catch_max=60
