@@ -355,27 +355,26 @@ class Level:
 			self.view_window(LOCALE_SCORE + ": {}".format(self.score),MODAL_WINDOW_IMAGE_FILE)
 
 	def view_hint(self,hint_step):
-		match hint_step:
 		# inventory
 		# pick up bottle
-			case 1:
-				self.view_image_2(self.help_pick_up_img)
+		if hint_step==1:
+			self.view_image_2(self.help_pick_up_img)
 		# throw bottle to trash
-			case 2:
-				self.view_image_2(self.throw_bottle_img)
+		elif hint_step==2:
+			self.view_image_2(self.throw_bottle_img)
 		# warn a poacher is comming
 		# hint to pick up a tire
-			case 4:
-				self.view_image_2(self.help_pick_up_tire_img)
+		elif hint_step==4:
+			self.view_image_2(self.help_pick_up_tire_img)
 		# hint how to hang the tire on the rod
-			case 5:
-				self.view_image_2(self.help_hang_tire_img)
+		elif hint_step==5:
+			self.view_image_2(self.help_hang_tire_img)
 		# pick up a mug
-			case 6:
-				self.view_image_2(self.help_pick_up_mug_img)
+		elif hint_step==6:
+			self.view_image_2(self.help_pick_up_mug_img)
 		# catch a soul
-			case 7:
-				self.view_image_2(self.help_catch_soul_img)
+		elif hint_step==7:
+			self.view_image_2(self.help_catch_soul_img)
 
 	def view_window(self,text_content,image_path,dialog_sound=""):
 			if dialog_sound != "":
