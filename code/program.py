@@ -1,5 +1,6 @@
 from multiprocessing.connection import wait
 from time import sleep
+from fikmat_api import display_score_on_led_display
 import settings
 from path_filler import ROOT_FOLDER,GRAPHICS_FOLDER,AUDIO_FOLDER
 
@@ -8,7 +9,7 @@ import sys
 import subprocess
 import pkg_resources
 
-required = {'pygame', 'pygame_menu'}
+required = {'pygame', 'pygame_menu','requests'}
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
 
@@ -117,6 +118,10 @@ class Program:
 		self.run_launch_screen()
 		if(not self.main_menu_music==""):
 			self.main_menu_music.play(loops = -1)
+		try:
+			display_score_on_led_display(0)
+		except:
+			print("Could not send curl.")
 		self.main_menu.mainloop(self.screen,self.main_background)
 
 	def run_game(self):
@@ -143,6 +148,10 @@ class Program:
 		self.handle_highscore()
 		
 		self.scoreboard_menu.clear()
+		try:
+			display_score_on_led_display(0)
+		except:
+			print("Could not send curl.")
 
 		self.scoreboard = self.load_score_board()
 
@@ -335,3 +344,4 @@ class Program:
 		self.screen.blit(background,(x - background.get_width() // 2, y - background.get_height() // 2))
 		pygame.display.flip()
 		sleep(1.2)
+	

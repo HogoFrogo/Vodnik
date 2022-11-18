@@ -33,7 +33,6 @@ class Fish(AnimatedObject):
 		self.x+=self.speed_x*self.direction
 		if self.status=="turn":
 			self.turning-=1
-			print(self.turning)
 			if self.turning<0:
 				self.change_status("run")
 				self.speed_x=self.speed_max

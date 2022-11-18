@@ -4,6 +4,7 @@ from multiprocessing.connection import wait
 from time import sleep
 from traceback import format_exc
 import pygame
+from fikmat_api import display_score_on_led_display
 from objects.bottle import Bottle
 from objects.mug import Mug
 from objects.spirit import Spirit
@@ -256,11 +257,11 @@ class Level:
 			if fish.x+self.fish_width>self.playground_border_right and fish.status=="run" and fish.direction==1:
 				fish.turn()
 				if self.state=="run":
-					self.score += 50
+					self.change_score(30)
 			elif fish.x<self.playground_border_left and fish.status=="run" and fish.direction==-1:
 				fish.turn()
 				if self.state=="run":
-					self.score += 50
+					self.change_score(30)
 			elif randint(0,400)<1 and fish.status=="run":
 				fish.turn()
 			fish.update()
@@ -294,8 +295,6 @@ class Level:
 		self.check_fisherman()
 		self.check_fish()
 		self.check_garbage()
-		print("n_fishermen")
-		print(len(self.fishermen))
 
 		if self.state == "tutorial":
 			self.view_tutorial()
@@ -321,10 +320,7 @@ class Level:
 
 
 	def view_tutorial(self):
-		print(self.hint_fisherman.status)
 		if self.hint_fisherman.status=="go_home_fish":
-			# oh no
-			print("oh")
 			self.hint_step=-1
 		elif self.vodnik.inventory == self.hint_bottle:
 			self.hint_step=2
@@ -359,7 +355,6 @@ class Level:
 			self.view_window(LOCALE_SCORE + ": {}".format(self.score),MODAL_WINDOW_IMAGE_FILE)
 
 	def view_hint(self,hint_step):
-		print("hint")
 		match hint_step:
 		# inventory
 		# pick up bottle
@@ -447,7 +442,6 @@ class Level:
 			if fisherman.status=="drowning":
 				fisherman.time_to_drown-=1
 				if fisherman.time_to_drown<1:
-					print("dead")
 					spirit = Spirit(fisherman.x+self.fisherman_width_half-self.spirit_width_half,fisherman.y+self.spirits_below_fisherman_y)
 					if fisherman == self.hint_fisherman:
 						self.hint_spirit = spirit
@@ -481,12 +475,11 @@ class Level:
 		#cleaned_garbage = {Pneu(630,300)}
 		to_be_removed = ""
 		for garbage in self.all_garbage:
-			# print(garbage.x)
 			if garbage.x>self.glass_container_position[0]-20 and garbage.y>self.glass_container_border_y and isinstance(garbage,Bottle):
 				to_be_removed = garbage
 		if not to_be_removed=="":
 			self.all_garbage.remove(to_be_removed)
-			self.score += to_be_removed.score
+			self.change_score(to_be_removed.score)
 
 	def get_input(self):
 		keys = pygame.key.get_pressed()
@@ -506,7 +499,7 @@ class Level:
 							success = True # chytne duši
 							self.vodnik.drop_inventory()
 							to_be_removed=spirit
-							self.score += 100
+							self.change_score(100)
 							self.spirit_caught = True
 							break
 					if success:
@@ -537,7 +530,6 @@ class Level:
 					self.all_garbage.remove(to_be_removed)
 				else: # nebylo prioritizováno, nebo nebylo prioritizováno úspěšně
 					if self.vodnik.is_recatching():
-						print("recatching")
 						if (isinstance(self.vodnik.last_catched, Mug)) and not pneu=="":
 							to_be_removed = pneu
 						elif (isinstance(self.vodnik.last_catched, Mug)) and not bottle=="":
@@ -556,7 +548,6 @@ class Level:
 							else:
 								self.vodnik.pick_up(Mug(0,0)) # vezme si hrníček
 					if to_be_removed=="": # pokud nic nechytil
-						print("not recatching")
 						if not mug=="": # pokud je u hrníčku, vezmi hrníček
 							to_be_removed=mug
 						elif self.vodnik.x<self.shelf_border: # je v dosahu poličky
@@ -584,36 +575,34 @@ class Level:
 					for fisherman in self.fishermen:
 						if self.vodnik.x+self.vodnik_width_half in range(fisherman.x,fisherman.x+self.fisherman_width) and fisherman.status=="catching":
 							success= True
-							print("catching!")
 							if isinstance(self.vodnik.inventory,Garbage):
 								fisherman.drop_fish()
 								if isinstance(self.vodnik.inventory,Pneu):
 									fisherman.change_status("drowning")
-									self.score+=50
+									self.change_score(50)
 									to_be_moved = fisherman
 								elif isinstance(self.vodnik.inventory,Bottle):
 									fisherman.change_status("angry")
 									fisherman.inventory=self.vodnik.inventory
 								elif isinstance(self.vodnik.inventory,Mug):
 									fisherman.change_status("happy")
-									self.score -= 20
+									self.change_score(-20)
 							break
 					if not success:
 						for fisherman in self.fishermen:
 							# if fisherman.status=="catching":
 							if self.vodnik.x+self.vodnik_width_half in range(fisherman.x,fisherman.x+self.fisherman_width) and fisherman.status=="sitting":
 								success= True
-								print("sitting!")
 								if isinstance(self.vodnik.inventory,Pneu):
 									fisherman.change_status("drowning")
-									self.score+=50
+									self.change_score(50)
 									to_be_moved = fisherman
 								elif isinstance(self.vodnik.inventory,Bottle):
 									fisherman.change_status("angry")
 									fisherman.inventory=self.vodnik.inventory
 								elif isinstance(self.vodnik.inventory,Mug):
 									fisherman.change_status("happy")
-									self.score -= 20
+									self.change_score(-20)
 								break
 						if not success:
 							self.all_garbage.append(self.vodnik.inventory)
@@ -628,3 +617,10 @@ class Level:
 			self.vodnik.speed_x = 0
 		elif self.vodnik.x<self.playground_border_left and self.vodnik.direction==-1:
 			self.vodnik.speed_x = 0
+
+	def change_score(self, value):
+		self.score+=value
+		try:
+			display_score_on_led_display(self.score)
+		except:
+			print("Could not send curl.")
