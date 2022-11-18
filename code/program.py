@@ -42,7 +42,7 @@ LOCALE_DELETE_CHARACTER = "Umazat písmeno"
 LOCALE_CREDITS_LABEL_1 = "Programming: Samuel Machat"
 LOCALE_CREDITS_LABEL_2 = "Grafika: Lenka Holubcová"
 LOCALE_CREDITS_LABEL_3 = "S láskou k Hogo Frogo"
-LOCALE_CREDITS_LABEL_4 = "pro FIK Mat"
+LOCALE_CREDITS_LABEL_4 = "pro FIKMAT"
 
 PLAYERNAME_FILE = ROOT_FOLDER + 'playername.txt'
 MAIN_MENU_MUSIC_FILE = AUDIO_FOLDER + 'vodevil-15550.mp3'
