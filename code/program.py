@@ -227,7 +227,7 @@ class Program:
 				f.write(',')
 			else:
 				break
-		f.write('}]}')
+		f.write(']}')
 	def create_play_menu(self):
 		def add_letter_to_name(self,selected_value):
 			global player_name
